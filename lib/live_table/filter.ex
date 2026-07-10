@@ -19,11 +19,11 @@ defmodule LiveTable.Filter do
       field, acc when is_atom(field) ->
         dynamic([p], ^acc or ilike(field(p, ^field), ^"%#{search_term}%"))
 
-      {table_name, field}, nil ->
-        dynamic([{^table_name, p}], ilike(field(p, ^field), ^"%#{search_term}%"))
+      {table_name, field, :jsonb}, nil ->
+        dynamic([{^table_name, p}], fragment("?::text ILIKE ?", field(p, ^field), ^"%#{search_term}%"))
 
-      {table_name, field}, acc ->
-        dynamic([{^table_name, p}], ^acc or ilike(field(p, ^field), ^"%#{search_term}%"))
+      {table_name, field, :jsonb}, acc ->
+        dynamic([{^table_name, p}], ^acc or fragment("?::text ILIKE ?", field(p, ^field), ^"%#{search_term}%"))
     end)
   end
 
@@ -32,8 +32,8 @@ defmodule LiveTable.Filter do
   defp get_searchable_fields(fields) do
     fields
     |> Enum.flat_map(fn
-      {_key, %{assoc: {assoc, field}, searchable: true}} ->
-        [{assoc, field}]
+      {_key, %{assoc: {assoc, field}, searchable: true, type: :jsonb}} ->
+        [{assoc, field, :jsonb}]
 
       {field, %{searchable: true}} ->
         [field]

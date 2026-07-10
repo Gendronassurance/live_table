@@ -38,7 +38,7 @@ defmodule LiveTable.TableComponent do
 
       defp header_section(%{table_options: %{mode: :table}} = var!(assigns)) do
         ~H"""
-        <div class="px-4 sm:px-6 lg:px-8">
+        <div>
           <!-- Header with title -->
           <div class="flex sm:items-center justify-end">
             <div
@@ -67,7 +67,7 @@ defmodule LiveTable.TableComponent do
 
       defp header_section(%{table_options: %{mode: :card}} = var!(assigns)) do
         ~H"""
-        <div class="px-4 sm:px-6 lg:px-8">
+        <div>
           <div class="flex sm:items-center justify-end">
             <div
               :if={get_in(@table_options, [:exports, :enabled])}
@@ -110,8 +110,8 @@ defmodule LiveTable.TableComponent do
                   class="w-64"
                 >
                   <label for="table-search" class="sr-only">Search</label>
-                  <div class="relative rounded-md shadow-sm">
-                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                  <div class="relative">
+                    <div class="mb-0 pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                       <svg
                         class="h-5 w-5 text-gray-400"
                         viewBox="0 0 20 20"
@@ -143,7 +143,7 @@ defmodule LiveTable.TableComponent do
                   :if={@options["pagination"]["paginate?"]}
                   name="per_page"
                   value={@options["pagination"]["per_page"]}
-                  class="w-20 rounded-md border-0 py-1.5 pl-3 pr-8 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-gray-800 dark:text-white dark:ring-gray-700 dark:focus:ring-indigo-500"
+                  class="mb-0 w-20 rounded-md items-center border-0 py-1.5 pl-1 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:ring-gray-700 dark:focus:ring-indigo-500"
                 >
                   {Phoenix.HTML.Form.options_for_select(
                     get_in(@table_options, [:pagination, :sizes]),
@@ -159,7 +159,7 @@ defmodule LiveTable.TableComponent do
                 :if={length(@filters) > 3}
                 type="button"
                 phx-click="toggle_filters"
-                class="inline-flex items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-gray-700 dark:hover:bg-gray-700"
+                class="mb-0 inline-flex items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-zinc-800 dark:text-white dark:ring-gray-700 dark:hover:bg-gray-700"
               >
                 <svg class="-ml-0.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path
@@ -206,7 +206,7 @@ defmodule LiveTable.TableComponent do
             <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
               <div class="overflow-hidden shadow sm:rounded-lg">
                 <table class="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
-                  <thead class="bg-gray-50 dark:bg-gray-800">
+                  <thead class="bg-gray-50 dark:bg-zinc-800">
                     <tr>
                       <th
                         :for={{key, field} <- @fields}
@@ -222,7 +222,7 @@ defmodule LiveTable.TableComponent do
                       </th>
                     </tr>
                   </thead>
-                  <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-900">
+                  <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-zinc-900">
                     <tr id="empty-placeholder" class="only:table-row hidden">
                       <td colspan={length(@fields)} class="py-10 text-center">
                         <svg
@@ -242,7 +242,7 @@ defmodule LiveTable.TableComponent do
                         <h3 class="mt-2 text-sm font-semibold text-gray-900 dark:text-gray-100">
                           No data
                         </h3>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                        <p class="mt-1 text-sm text-gray-500 dark:text-zinc-400">
                           Get started by creating a new record.
                         </p>
                       </td>
@@ -304,7 +304,7 @@ defmodule LiveTable.TableComponent do
         <tr
           :for={{id, resource} <- @streams.resources}
           id={id}
-          class="hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-800 dark:text-neutral-200"
+          class="hover:bg-gray-50 dark:hover:bg-zinc-800 text-gray-800 dark:text-neutral-200"
         >
           <td
             :for={{key, field} <- @fields}
@@ -349,7 +349,7 @@ defmodule LiveTable.TableComponent do
 
       def filters(var!(assigns)) do
         ~H"""
-        <div :if={@filters != []} class="rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
+        <div :if={@filters != []} class="rounded-lg bg-gray-50 p-4 dark:bg-zinc-800">
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <%= for {key, filter} <- @filters do %>
               <div>
@@ -363,12 +363,12 @@ defmodule LiveTable.TableComponent do
           </div>
           <div
             :if={@applied_filters != %{"search" => ""}}
-            class="mt-4 flex justify-end border-t border-gray-200 pt-4 dark:border-gray-700"
+            class="mt-4 flex justify-end border-t border-gray-200 pt-4 dark:border-zinc-700"
           >
             <.link
               phx-click="sort"
               phx-value-clear_filters="true"
-              class="inline-flex items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-gray-700 dark:hover:bg-gray-700"
+              class="inline-flex items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-zinc-800 dark:text-white dark:ring-gray-700 dark:hover:bg-gray-700"
             >
               <svg class="-ml-0.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path
@@ -399,9 +399,9 @@ defmodule LiveTable.TableComponent do
               class={[
                 "relative inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold ring-1 ring-inset",
                 if String.to_integer(@current_page) == 1 do
-                  "bg-gray-100 text-gray-400 ring-gray-300 cursor-not-allowed dark:bg-gray-800 dark:text-gray-600 dark:ring-gray-700"
+                  "bg-gray-100 text-gray-400 ring-gray-300 cursor-not-allowed dark:bg-zinc-800 dark:text-gray-600 dark:ring-gray-700"
                 else
-                  "bg-white text-gray-900 ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-gray-700 dark:hover:bg-gray-700"
+                  "bg-white text-gray-900 ring-gray-300 hover:bg-gray-50 dark:bg-zinc-800 dark:text-white dark:ring-gray-700 dark:hover:bg-gray-700"
                 end
               ]}
               disabled={String.to_integer(@current_page) == 1}
@@ -414,9 +414,9 @@ defmodule LiveTable.TableComponent do
               class={[
                 "relative ml-3 inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold ring-1 ring-inset",
                 if !@has_next_page do
-                  "bg-gray-100 text-gray-400 ring-gray-300 cursor-not-allowed dark:bg-gray-800 dark:text-gray-600 dark:ring-gray-700"
+                  "bg-gray-100 text-gray-400 ring-gray-300 cursor-not-allowed dark:bg-zinc-800 dark:text-gray-600 dark:ring-gray-700"
                 else
-                  "bg-white text-gray-900 ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-gray-700 dark:hover:bg-gray-700"
+                  "bg-white text-gray-900 ring-gray-300 hover:bg-gray-50 dark:bg-zinc-800 dark:text-white dark:ring-gray-700 dark:hover:bg-gray-700"
                 end
               ]}
               disabled={!@has_next_page}
@@ -434,7 +434,7 @@ defmodule LiveTable.TableComponent do
           <div>
             <button
               type="button"
-              class="inline-flex cursor-pointer w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-gray-700 dark:hover:bg-gray-700"
+              class="inline-flex cursor-pointer w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-zinc-800 dark:text-white dark:ring-gray-700 dark:hover:bg-gray-700"
               id="export-menu-button"
               aria-expanded="false"
               aria-haspopup="true"
@@ -464,7 +464,7 @@ defmodule LiveTable.TableComponent do
 
           <div
             id="export-dropdown"
-            class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-800 dark:ring-gray-700 hidden"
+            class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-zinc-800 dark:ring-gray-700 hidden"
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="export-menu-button"
